@@ -1,0 +1,29 @@
+body {
+  background-color: #fcdec0;
+}
+
+header {
+  text-align: center;
+  margin: 100px auto 50px;
+  color: #7d5a50;
+}
+
+.container {
+  background-color: #e5b299;
+}
+
+footer {
+  text-align: center;
+  margin: 50px auto 0;
+  background-color: #7d5a50;
+  color: #e5b299;
+}
+
+footer a {
+  color: #fff;
+  text-decoration: none;
+}
+
+footer a:hover {
+  color: #fff;
+}
