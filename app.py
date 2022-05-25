@@ -3,12 +3,13 @@
 import sys
 import logging
 import pymongo
-from flask import Flask
+from flask import Flask, render_template
+
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
-formatter = logging.Formatter("%(asctime)s:%(name)s:%(message)s")
+formatter = logging.Formatter("%(asctime)s:%(levelname)s:%(name)s:%(message)s")
 
 file_handler = logging.FileHandler("logs.log")
 file_handler.setLevel(logging.DEBUG)
@@ -31,8 +32,9 @@ db = client.lms
 @app.route("/")
 def home_page():
     """home page"""
-    logger.debug(str(list(db.books.find())))
-    return str(list(db.books.find()))
+    books = list(db.books.find())
+    logger.debug("%s books found", len(books))
+    return render_template("index.html", books=books)
 
 
 if __name__ == "__main__":
