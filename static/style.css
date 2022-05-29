@@ -1,5 +1,8 @@
 body {
   background-color: #fcdec0;
+  margin: 0;
+  padding: 0;
+  height: 100%;
 }
 
 header {
@@ -8,8 +11,9 @@ header {
   color: #7d5a50;
 }
 
-.container {
+.content {
   background-color: #e5b299;
+  margin: 0 5%;
 }
 
 footer {
@@ -17,6 +21,10 @@ footer {
   margin: 50px auto 0;
   background-color: #7d5a50;
   color: #e5b299;
+  clear: both;
+  width: 100%;
+  bottom: 0;
+  position: fixed;
 }
 
 footer a {
