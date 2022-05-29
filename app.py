@@ -32,9 +32,15 @@ db = client.lms
 @app.route("/")
 def home_page():
     """home page"""
+    return render_template("index.html")
+
+
+@app.route("/books")
+def book_list():
+    """books page"""
     books = list(db.books.find())
     logger.debug("%s books found", len(books))
-    return render_template("index.html", books=books)
+    return render_template("books.html", books=books)
 
 
 if __name__ == "__main__":
