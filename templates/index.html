@@ -1,61 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
 
-  <head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
-    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
-    <meta name="author" content="Kadir Burak Gündüz"/>
-    <title>Library Management System</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous"/>
-    <link rel="stylesheet" href="../static/style.css"/>
-  </head>
+{% block head_title %}LMS{% endblock %}
 
-  <body>
-    <header>
-      <h1>Library Management System</h1>
-    </header>
+{% block header %}
+  <h1>
+    {% block title %}Welcome to Library Management System{% endblock %}
+  </h1>
+{% endblock %}
 
-    <div class="container">
-      {% if books %}
-        <table class="table">
-          <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Image</th>
-              <th scope="col">Title</th>
-              <th scope="col">Author</th>
-              <th scope="col">Pages</th>
-              <th scope="col">Year</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for book in books %}
-              <tr>
-                <th scope="row">{{loop.index}}</th>
-                <td hidden="true">{{book.id}}</td>
-                <td>{{book.imageLink}}</td>
-                <td>{{book.title}}</td>
-                <td>{{book.author}}</td>
-                <td>{{book.pages}}</td>
-                <td>{{book.year}}</td>
-              </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      {% else %}
-        <div class="alert alert-danger" role="alert">
-          <strong>No books found</strong>
-        </div>
-      {% endif %}
-    </div>
-
-    <footer>
-      Copyright &copy; 2022 by
-      <a href="https://github.com/kb1337">kb1337</a>
-    </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
-  </body>
-
-</html>
+{% block content %}{% endblock %}
