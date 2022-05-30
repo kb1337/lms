@@ -29,7 +29,7 @@ logger.addHandler(stream_handler)
 app = Flask(__name__)
 
 client: pymongo.MongoClient = pymongo.MongoClient(host="localhost", port=27017)
-db = client["lms"]
+db = client["lms"]  # database name
 
 
 @app.route("/")
@@ -44,6 +44,39 @@ def list_books():
     books = list(db.books.find())
     logger.debug("%s books found", len(books))
     return render_template("books.html", books=books)
+
+
+@app.route("/book/update/<book_id>")
+def update_book(book_id):
+    """update book"""
+
+    # Check if book_id is valid ObjectId
+    if not ObjectId.is_valid(book_id):
+        return Response("Invalid book id", status=400)
+
+    # Check if book exists
+    book = list(db.books.find({"_id": ObjectId(book_id)}))
+    if len(book) == 0:
+        logger.error("Invalid book id")
+        return Response("Book not found", status=404)
+    logger.info("%s book found with id='%s'", len(book), book_id)
+
+    # Get book informations from db
+    if request.method == "GET":
+        return render_template("update_book.html", book=book[0])
+
+    # Update book with new values
+    elif request.method == "POST":
+        # TODO: update book
+        logger.info("Updating book with id='%s'", book_id)
+
+    else:
+        return Response("Method not allowed", status=405)
+
+
+# TODO: Add a book
+# TODO: Delete the book by id
+# TODO: Search the book by any field
 
 
 if __name__ == "__main__":
