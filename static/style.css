@@ -1,5 +1,5 @@
 body {
-  background-color: #fcdec0;
+  background-color: #fff;
   margin: 0;
   padding: 0;
   height: 100%;
@@ -7,20 +7,20 @@ body {
 
 header {
   text-align: center;
-  margin: 100px auto 50px;
-  color: #7d5a50;
+  margin: 100px 5% 50px;
+  color: #2155cd;
 }
 
 .content {
-  background-color: #e5b299;
+  background-color: #e8f9fd;
   margin: 0 5%;
 }
 
 footer {
   text-align: center;
   margin: 50px auto 0;
-  background-color: #7d5a50;
-  color: #e5b299;
+  background-color: #2155cd;
+  color: #e8f9fd;
   clear: both;
   width: 100%;
   bottom: 0;
@@ -28,10 +28,10 @@ footer {
 }
 
 footer a {
-  color: #fff;
+  color: #e8f9fd;
   text-decoration: none;
 }
 
 footer a:hover {
-  color: #fff;
+  color: #e8f9fd;
 }
