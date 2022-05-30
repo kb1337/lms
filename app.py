@@ -3,13 +3,16 @@
 import sys
 import logging
 import pymongo
-from flask import Flask, render_template
+from bson import ObjectId
+from flask import Flask, render_template, Response, request
 
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
-formatter = logging.Formatter("%(asctime)s:%(levelname)s:%(name)s:%(message)s")
+formatter = logging.Formatter(
+    "%(asctime)s:%(levelname)s:%(name)s:%(message)s", datefmt="%d-%m-%Y %H:%M:%S"
+)
 
 file_handler = logging.FileHandler("logs.log")
 file_handler.setLevel(logging.DEBUG)
@@ -26,7 +29,7 @@ logger.addHandler(stream_handler)
 app = Flask(__name__)
 
 client: pymongo.MongoClient = pymongo.MongoClient(host="localhost", port=27017)
-db = client.lms
+db = client["lms"]
 
 
 @app.route("/")
@@ -36,7 +39,7 @@ def home_page():
 
 
 @app.route("/books")
-def book_list():
+def list_books():
     """books page"""
     books = list(db.books.find())
     logger.debug("%s books found", len(books))
@@ -44,4 +47,4 @@ def book_list():
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
