@@ -46,8 +46,8 @@ def list_books():
     return render_template("books.html", books=books)
 
 
-@app.route("/book/update/<book_id>")
-def update_book(book_id):
+@app.route("/book/<book_id>", methods=["GET", "POST", "DELETE"])
+def book_actions(book_id):
     """update book"""
 
     # Check if book_id is valid ObjectId
@@ -68,15 +68,22 @@ def update_book(book_id):
     # Update book with new values
     elif request.method == "POST":
         # TODO: update book
+
         logger.info("Updating book with id='%s'", book_id)
+        return Response("Book updated", status=200)
+
+    # Delete book
+    elif request.method == "DELETE":
+        # TODO: delete book
+
+        logger.info("Deleting book with id='%s'", book_id)
+        return Response("Book deleted", status=200)
 
     else:
         return Response("Method not allowed", status=405)
 
 
-# TODO: Add a book
-# TODO: Delete the book by id
-# TODO: Search the book by any field
+# TODO: Search book by any field
 
 
 if __name__ == "__main__":
