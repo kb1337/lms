@@ -34,6 +34,25 @@ client: pymongo.MongoClient = pymongo.MongoClient(host="localhost", port=27017)
 db = client["lms"]  # database name
 
 
+def check_book(book_id: str) -> bool:
+    """Check if book exists in database"""
+
+    # Check if book_id is valid ObjectId
+    if not ObjectId.is_valid(book_id):
+        logger.warning("Invalid book_id: %s", book_id)
+        return False
+
+    # Check if book exists
+    book = list(db.books.find({"_id": ObjectId(book_id)}))
+    if len(book) == 0:
+        logger.warning("Book not found: %s", book_id)
+        return False
+
+    logger.info("%s book found with id='%s'", len(book), book_id)
+    logger.debug("Book: %s", book)
+    return True
+
+
 @app.route("/")
 def home_page():
     """home page"""
@@ -52,19 +71,12 @@ def list_books():
 def book_details(book_id):
     """book details"""
 
-    # Check if book_id is valid ObjectId
-    if not ObjectId.is_valid(book_id):
-        logger.warning("Invalid book_id: %s", book_id)
-        flash("Invalid book id", "danger")
-        return redirect(url_for("list_books"))
-
-    book = list(db.books.find({"_id": ObjectId(book_id)}))
-    if len(book) == 0:
-        logger.warning("Book not found: %s", book_id)
+    book = check_book(book_id)
+    if not book:
         flash("Book not found", "danger")
         return redirect(url_for("list_books"))
 
-    logger.info("%s book found with id='%s'", len(book), book_id)
+    logger.info("Book found with id='%s'", book_id)
     return render_template("books.html", book=book)
 
 
@@ -72,23 +84,15 @@ def book_details(book_id):
 def update_book(book_id):
     """book update"""
 
-    # Check if book_id is valid ObjectId
-    if not ObjectId.is_valid(book_id):
-        logger.warning("Invalid book_id: %s", book_id)
-        flash("Invalid book id", "danger")
-        return redirect(url_for("list_books"))
-
-    # Check if book exists
-    book = list(db.books.find({"_id": ObjectId(book_id)}))
-    if len(book) == 0:
-        logger.warning("Book not found: %s", book_id)
-        flash("Book not found", "danger")
-        return redirect(url_for("list_books"))
-    logger.info("%s book found with id='%s'", len(book), book_id)
-
     # Get book informations from db
     if request.method == "GET":
-        return render_template("update_book.html", book=book[0])
+        book = check_book(book_id)
+        if not book:
+            flash("Book not found", "danger")
+            return redirect(url_for("list_books"))
+
+        book = list(db.books.find({"_id": ObjectId(book_id)}))[0]
+        return render_template("update_book.html", book=book)
 
     # Update book with new values
     elif request.method == "POST":
@@ -146,19 +150,11 @@ def update_book(book_id):
 def delete_book(book_id):
     """book delete"""
 
-    # Check if book_id is valid ObjectId
-    if not ObjectId.is_valid(book_id):
-        logger.warning("Invalid book_id: %s", book_id)
-        flash("Invalid book id", "danger")
-        return redirect(url_for("list_books"))
+    book = check_book(book_id)
 
-    # Check if book exists
-    book = list(db.books.find({"_id": ObjectId(book_id)}))
-    if len(book) == 0:
-        logger.warning("Book not found: %s", book_id)
+    if not book:
         flash("Book not found", "danger")
         return redirect(url_for("list_books"))
-    logger.info("%s book found with id='%s'", len(book), book_id)
 
     db.books.delete_one({"_id": ObjectId(book_id)})
 
