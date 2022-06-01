@@ -4,7 +4,7 @@ import sys
 import logging
 import pymongo
 from bson import ObjectId
-from flask import Flask, render_template, Response, request, flash, url_for, redirect
+from flask import Flask, render_template, request, flash, url_for, redirect
 
 
 logger = logging.getLogger(__name__)
@@ -53,12 +53,14 @@ def book_details(book_id):
 
     # Check if book_id is valid ObjectId
     if not ObjectId.is_valid(book_id):
-        return Response("Invalid book id", status=400)
+        flash("Invalid book id", "danger")
+        return redirect(url_for("list_books"))
 
     book = list(db.books.find({"_id": ObjectId(book_id)}))
     if len(book) == 0:
         logger.error("Book not found")
-        return Response("Book not found", status=404)
+        flash("Book not found", "danger")
+        return redirect(url_for("list_books"))
 
     logger.info("%s book found with id='%s'", len(book), book_id)
     return render_template("books.html", book=book)
@@ -70,14 +72,15 @@ def update_book(book_id):
 
     # Check if book_id is valid ObjectId
     if not ObjectId.is_valid(book_id):
-        flash("Invalid book id")
+        flash("Invalid book id", "danger")
         return redirect(url_for("list_books"))
 
     # Check if book exists
     book = list(db.books.find({"_id": ObjectId(book_id)}))
     if len(book) == 0:
         logger.error("Invalid book id")
-        return Response("Book not found", status=404)
+        flash("Book not found", "danger")
+        return redirect(url_for("list_books"))
     logger.info("%s book found with id='%s'", len(book), book_id)
 
     # Get book informations from db
@@ -127,10 +130,13 @@ def update_book(book_id):
         )
 
         logger.info("Updating book with id='%s'", book_id)
-        return Response("Book updated", status=200)
+        flash("Book updated successfully", "success")
+        return redirect(url_for("list_books"))
 
     else:
-        return Response("Method not allowed", status=405)
+        logger.error("Invalid request method")
+        flash("Invalid request method", "danger")
+        return redirect(url_for("list_books"))
 
 
 @app.route("/book/delete/<book_id>")
@@ -139,18 +145,22 @@ def delete_book(book_id):
 
     # Check if book_id is valid ObjectId
     if not ObjectId.is_valid(book_id):
-        return Response("Invalid book id", status=400)
+        flash("Invalid book id", "danger")
+        return redirect(url_for("list_books"))
 
     # Check if book exists
     book = list(db.books.find({"_id": ObjectId(book_id)}))
     if len(book) == 0:
         logger.error("Invalid book id")
-        return Response("Book not found", status=404)
+        flash("Book not found", "danger")
+        return redirect(url_for("list_books"))
     logger.info("%s book found with id='%s'", len(book), book_id)
 
     db.books.delete_one({"_id": ObjectId(book_id)})
 
-    return Response("Book deleted", status=200)
+    logger.info("Deleting book with id='%s'", book_id)
+    flash("Book deleted successfully", "success")
+    return redirect(url_for("list_books"))
 
 
 # TODO: Search book by any field
