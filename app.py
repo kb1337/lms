@@ -48,7 +48,7 @@ def list_books():
 
 @app.route("/book/<book_id>", methods=["GET", "POST", "DELETE"])
 def book_actions(book_id):
-    """update book"""
+    """book create/update/delete"""
 
     # Check if book_id is valid ObjectId
     if not ObjectId.is_valid(book_id):
@@ -67,7 +67,45 @@ def book_actions(book_id):
 
     # Update book with new values
     elif request.method == "POST":
-        # TODO: update book
+        title = request.form.get("title")
+        authors = request.form.get("authors")
+        editors = request.form.get("editors")
+        isbn = request.form.get("isbn")
+        year = request.form.get("year")
+        edition = request.form.get("edition")
+        publisher = request.form.get("publisher")
+        page = request.form.get("page")
+        language = request.form.get("language")
+        image = request.form.get("image")
+        quantity = request.form.get("quantity")
+        price = request.form.get("price")
+
+        # TODO: Validate book informations
+
+        authors = str(authors).split(",")
+        authors = [author.strip() for author in authors]
+        editors = str(editors).split(",")
+        editors = [editor.strip() for editor in editors]
+
+        db.books.update_one(
+            {"_id": ObjectId(book_id)},
+            {
+                "$set": {
+                    "title": title,
+                    "authors": authors,
+                    "editors": editors,
+                    "isbn": isbn,
+                    "year": year,
+                    "edition": edition,
+                    "publisher": publisher,
+                    "page": page,
+                    "language": language,
+                    "image": image,
+                    "quantity": quantity,
+                    "price": price,
+                }
+            },
+        )
 
         logger.info("Updating book with id='%s'", book_id)
         return Response("Book updated", status=200)
