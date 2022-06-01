@@ -5,6 +5,13 @@ body {
   height: 100%;
 }
 
+.navbar {
+  background-color: #e8f9fd67;
+  margin: 0 auto;
+  width: 70%;
+  font-size: x-large;
+}
+
 header {
   text-align: center;
   margin: 100px 5% 50px;
@@ -12,8 +19,7 @@ header {
 }
 
 .content {
-  background-color: #e8f9fd;
-  margin: 0 5%;
+  margin: 50px 5%;
 }
 
 footer {
@@ -34,4 +40,17 @@ footer a {
 
 footer a:hover {
   color: #e8f9fd;
+}
+
+#book-list {
+  background-color: #e8f9fd;
+}
+
+#book-form {
+  margin: 0 auto;
+  width: 60%;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 10px #ccc;
 }
