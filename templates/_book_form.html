@@ -7,57 +7,57 @@
   <div class="col-md-8 row">
     <div class="col-md-12">
       <label for="title" class="form-label">Title</label>
-      <input type="text" class="form-control" id="title" value="{{ book.title }}"/>
+      <input type="text" class="form-control" id="title" name="title" value="{{ book.title }}"/>
     </div>
 
     <div class="col-md-6">
       <label for="authors" class="form-label">Authors</label>
-      <input type="text" class="form-control" id="authors" value="{{ book.authors|join(', ') }}"/>
+      <input type="text" class="form-control" id="authors" name="authors" value="{{ book.authors|join(', ') }}"/>
     </div>
 
     <div class="col-md-6">
       <label for="editors" class="form-label">Editors</label>
-      <input type="text" class="form-control" id="editors" value="{{ book.editors|join(', ') }}"/>
+      <input type="text" class="form-control" id="editors" name="editors" value="{{ book.editors|join(', ') }}"/>
     </div>
 
     <div class="col-md-8">
       <label for="isbn" class="form-label">ISBN</label>
-      <input type="text" class="form-control" id="isbn" value="{{ book.isbn }}"/>
+      <input type="text" class="form-control" id="isbn" name="isbn" value="{{ book.isbn }}"/>
     </div>
 
     <div class="col-md-4">
       <label for="edition" class="form-label">Edition</label>
-      <input type="text" class="form-control" id="edition" value="{{ book.edition }}"/>
+      <input type="text" class="form-control" id="edition" name="edition" value="{{ book.edition }}"/>
     </div>
 
     <div class="col-md-4">
       <label for="language" class="form-label">Language</label>
-      <input type="text" class="form-control" id="language" value="{{ book.language }}"/>
+      <input type="text" class="form-control" id="language" name="language" value="{{ book.language }}"/>
     </div>
 
     <div class="col-md-4">
       <label for="year" class="form-label">Publish Year</label>
-      <input type="text" class="form-control" id="year" value="{{ book.year }}"/>
+      <input type="text" class="form-control" id="year" name="year" value="{{ book.year }}"/>
     </div>
 
     <div class="col-md-4">
       <label for="publisher" class="form-label">Publisher</label>
-      <input type="text" class="form-control" id="publisher" value="{{ book.publisher }}"/>
+      <input type="text" class="form-control" id="publisher" name="publisher" value="{{ book.publisher }}"/>
     </div>
 
     <div class="col-md-4">
       <label for="page" class="form-label">Page</label>
-      <input type="text" class="form-control" id="page" value="{{ book.page }}"/>
+      <input type="text" class="form-control" id="page" name="page" value="{{ book.page }}"/>
     </div>
 
     <div class="col-md-4">
       <label for="quantity" class="form-label">Quantity</label>
-      <input type="text" class="form-control" id="quantity" value="{{ book.quantity }}"/>
+      <input type="text" class="form-control" id="quantity" name="quantity" value="{{ book.quantity }}"/>
     </div>
 
     <div class="col-md-4">
       <label for="price" class="form-label">Price</label>
-      <input type="text" class="form-control" id="quantity" value="{{ book.price }}"/>
+      <input type="text" class="form-control" id="price" name="price" value="{{ book.price }}"/>
     </div>
   </div>
 
