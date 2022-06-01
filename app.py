@@ -11,7 +11,8 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
 formatter = logging.Formatter(
-    "%(asctime)s:%(levelname)s:%(name)s:%(message)s", datefmt="%d-%m-%Y %H:%M:%S"
+    "%(asctime)s:%(levelname)s:%(name)s:%(funcName)s:%(lineno)d:%(message)s",
+    datefmt="%d-%m-%Y %H:%M:%S",
 )
 
 file_handler = logging.FileHandler("logs.log")
@@ -53,12 +54,13 @@ def book_details(book_id):
 
     # Check if book_id is valid ObjectId
     if not ObjectId.is_valid(book_id):
+        logger.warning("Invalid book_id: %s", book_id)
         flash("Invalid book id", "danger")
         return redirect(url_for("list_books"))
 
     book = list(db.books.find({"_id": ObjectId(book_id)}))
     if len(book) == 0:
-        logger.error("Book not found")
+        logger.warning("Book not found: %s", book_id)
         flash("Book not found", "danger")
         return redirect(url_for("list_books"))
 
@@ -72,13 +74,14 @@ def update_book(book_id):
 
     # Check if book_id is valid ObjectId
     if not ObjectId.is_valid(book_id):
+        logger.warning("Invalid book_id: %s", book_id)
         flash("Invalid book id", "danger")
         return redirect(url_for("list_books"))
 
     # Check if book exists
     book = list(db.books.find({"_id": ObjectId(book_id)}))
     if len(book) == 0:
-        logger.error("Invalid book id")
+        logger.warning("Book not found: %s", book_id)
         flash("Book not found", "danger")
         return redirect(url_for("list_books"))
     logger.info("%s book found with id='%s'", len(book), book_id)
@@ -134,7 +137,7 @@ def update_book(book_id):
         return redirect(url_for("list_books"))
 
     else:
-        logger.error("Invalid request method")
+        logger.warning("Invalid request method %s", request.method)
         flash("Invalid request method", "danger")
         return redirect(url_for("list_books"))
 
@@ -145,13 +148,14 @@ def delete_book(book_id):
 
     # Check if book_id is valid ObjectId
     if not ObjectId.is_valid(book_id):
+        logger.warning("Invalid book_id: %s", book_id)
         flash("Invalid book id", "danger")
         return redirect(url_for("list_books"))
 
     # Check if book exists
     book = list(db.books.find({"_id": ObjectId(book_id)}))
     if len(book) == 0:
-        logger.error("Invalid book id")
+        logger.warning("Book not found: %s", book_id)
         flash("Book not found", "danger")
         return redirect(url_for("list_books"))
     logger.info("%s book found with id='%s'", len(book), book_id)
