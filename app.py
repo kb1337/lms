@@ -4,7 +4,7 @@ import sys
 import logging
 import pymongo
 from bson import ObjectId
-from flask import Flask, render_template, Response, request
+from flask import Flask, render_template, Response, request, flash, url_for, redirect
 
 
 logger = logging.getLogger(__name__)
@@ -27,6 +27,7 @@ logger.addHandler(stream_handler)
 
 
 app = Flask(__name__)
+app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
 client: pymongo.MongoClient = pymongo.MongoClient(host="localhost", port=27017)
 db = client["lms"]  # database name
@@ -46,13 +47,31 @@ def list_books():
     return render_template("books.html", books=books)
 
 
-@app.route("/book/<book_id>", methods=["GET", "POST", "DELETE"])
-def book_actions(book_id):
-    """book create/update/delete"""
+@app.route("/book/<book_id>")
+def book_details(book_id):
+    """book details"""
 
     # Check if book_id is valid ObjectId
     if not ObjectId.is_valid(book_id):
         return Response("Invalid book id", status=400)
+
+    book = list(db.books.find({"_id": ObjectId(book_id)}))
+    if len(book) == 0:
+        logger.error("Book not found")
+        return Response("Book not found", status=404)
+
+    logger.info("%s book found with id='%s'", len(book), book_id)
+    return render_template("books.html", book=book)
+
+
+@app.route("/book/update/<book_id>", methods=["GET", "POST"])
+def update_book(book_id):
+    """book update"""
+
+    # Check if book_id is valid ObjectId
+    if not ObjectId.is_valid(book_id):
+        flash("Invalid book id")
+        return redirect(url_for("list_books"))
 
     # Check if book exists
     book = list(db.books.find({"_id": ObjectId(book_id)}))
@@ -110,15 +129,28 @@ def book_actions(book_id):
         logger.info("Updating book with id='%s'", book_id)
         return Response("Book updated", status=200)
 
-    # Delete book
-    elif request.method == "DELETE":
-        # TODO: delete book
-
-        logger.info("Deleting book with id='%s'", book_id)
-        return Response("Book deleted", status=200)
-
     else:
         return Response("Method not allowed", status=405)
+
+
+@app.route("/book/delete/<book_id>")
+def delete_book(book_id):
+    """book delete"""
+
+    # Check if book_id is valid ObjectId
+    if not ObjectId.is_valid(book_id):
+        return Response("Invalid book id", status=400)
+
+    # Check if book exists
+    book = list(db.books.find({"_id": ObjectId(book_id)}))
+    if len(book) == 0:
+        logger.error("Invalid book id")
+        return Response("Book not found", status=404)
+    logger.info("%s book found with id='%s'", len(book), book_id)
+
+    db.books.delete_one({"_id": ObjectId(book_id)})
+
+    return Response("Book deleted", status=200)
 
 
 # TODO: Search book by any field
