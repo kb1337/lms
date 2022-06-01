@@ -1,55 +1,65 @@
-<form method="post" action="/book/{{ book._id }}">
+<form method="post" action="/book/{{ book._id }}" class="row g-3" id="book-form">
+  <div class="col-md-4">
+    <img src="/static/{{ book.image }}" alt="{{ book.title }}" class="img-fluid"/>
+    <label for="image" class="form-label">Image</label>
+    {# TODO: File upload #}
+  </div>
+  <div class="col-md-8 row">
+    <div class="col-md-12">
+      <label for="title" class="form-label">Title</label>
+      <input type="text" class="form-control" id="title" value="{{ book.title }}"/>
+    </div>
 
-  <div class="mb-3">
-    <label for="title" class="form-label">Title</label>
-    <input type="text" class="form-control" id="title" value="{{ book.title }}"/>
+    <div class="col-md-6">
+      <label for="authors" class="form-label">Authors</label>
+      <input type="text" class="form-control" id="authors" value="{{ book.authors|join(', ') }}"/>
+    </div>
+
+    <div class="col-md-6">
+      <label for="editors" class="form-label">Editors</label>
+      <input type="text" class="form-control" id="editors" value="{{ book.editors|join(', ') }}"/>
+    </div>
+
+    <div class="col-md-8">
+      <label for="isbn" class="form-label">ISBN</label>
+      <input type="text" class="form-control" id="isbn" value="{{ book.isbn }}"/>
+    </div>
+
+    <div class="col-md-4">
+      <label for="edition" class="form-label">Edition</label>
+      <input type="text" class="form-control" id="edition" value="{{ book.edition }}"/>
+    </div>
+
+    <div class="col-md-4">
+      <label for="language" class="form-label">Language</label>
+      <input type="text" class="form-control" id="language" value="{{ book.language }}"/>
+    </div>
+
+    <div class="col-md-4">
+      <label for="year" class="form-label">Publish Year</label>
+      <input type="text" class="form-control" id="year" value="{{ book.year }}"/>
+    </div>
+
+    <div class="col-md-4">
+      <label for="publisher" class="form-label">Publisher</label>
+      <input type="text" class="form-control" id="publisher" value="{{ book.publisher }}"/>
+    </div>
+
+    <div class="col-md-4">
+      <label for="page" class="form-label">Page</label>
+      <input type="text" class="form-control" id="page" value="{{ book.page }}"/>
+    </div>
+
+    <div class="col-md-4">
+      <label for="quantity" class="form-label">Quantity</label>
+      <input type="text" class="form-control" id="quantity" value="{{ book.quantity }}"/>
+    </div>
+
+    <div class="col-md-4">
+      <label for="price" class="form-label">Price</label>
+      <input type="text" class="form-control" id="quantity" value="{{ book.price }}"/>
+    </div>
   </div>
 
-  <div class="mb-3">
-    <label for="authors" class="form-label">Authors</label>
-    <input type="text" class="form-control" id="authors" value="{{ book.authors }}"/>
-  </div>
-
-  <div class="mb-3">
-    <label for="editors" class="form-label">Editors</label>
-    <input type="text" class="form-control" id="editors" value="{{ book.editors }}"/>
-  </div>
-
-  <div class="mb-3">
-    <label for="isbn" class="form-label">ISBN</label>
-    <input type="text" class="form-control" id="isbn" value="{{ book.isbn }}"/>
-  </div>
-
-  <div class="mb-3">
-    <label for="year" class="form-label">Publish Year</label>
-    <input type="text" class="form-control" id="year" value="{{ book.year }}"/>
-  </div>
-
-  <div class="mb-3">
-    <label for="edition" class="form-label">Edition</label>
-    <input type="text" class="form-control" id="edition" value="{{ book.edition }}"/>
-  </div>
-
-  <div class="mb-3">
-    <label for="publisher" class="form-label">Publisher</label>
-    <input type="text" class="form-control" id="publisher" value="{{ book.publisher }}"/>
-  </div>
-
-  <div class="mb-3">
-    <label for="page" class="form-label">Page</label>
-    <input type="text" class="form-control" id="page" value="{{ book.page }}"/>
-  </div>
-
-  <div class="mb-3">
-    <label for="language" class="form-label">Language</label>
-    <input type="text" class="form-control" id="language" value="{{ book.language }}"/>
-  </div>
-
-  <div class="mb-3">
-    <label for="quantity" class="form-label">Quantity</label>
-    <input type="text" class="form-control" id="quantity" value="{{ book.quantity }}"/>
-  </div>
-
-  <button type="submit" class="btn btn-primary">Save</button>
-
+  <button type="submit" class="btn btn-primary col-md-3 mx-auto">Save</button>
 </form>
