@@ -7,14 +7,29 @@
 {% endblock %}
 
 {% block content %}
+
+  {% with messages = get_flashed_messages(with_categories = true) %}
+  {% if messages %}
+    <ul class="flashes">
+      {% for category, message in messages %}
+        <li>
+          <div class="alert alert-{{ category }}" role="alert">
+            <strong>{{ message }}</strong>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+  {% endwith %}
+
   {% if books %}
-    <table class="table table-hover">
+    <table class="table table-hover" id="book-list">
       <thead class="table-ligth">
         <tr>
           <th scope="col">#</th>
           <th scope="col">Image</th>
           <th scope="col">Title</th>
-          <th scope="col">Author</th>
+          <th scope="col">Authors</th>
           <th scope="col">Pages</th>
           <th scope="col">Year</th>
           <th scope="col" colspan="2">Actions</th>
@@ -25,16 +40,18 @@
           <tr>
             <th scope="row">{{loop.index}}</th>
             <td hidden="true">{{book._id}}</td>
-            <td>{{book.imageLink}}</td>
-            <td>{{book.title}}</td>
-            <td>{{book.author}}</td>
-            <td>{{book.pages}}</td>
-            <td>{{book.year}}</td>
             <td>
-              <a href="./book/update/{{ book._id }}" type="button" class="btn btn-primary">Update</a>
+              <img src="/static/{{ book.image }}" alt="{{ book.title }}" width="42" height="60"/>
+            </td>
+            <td>{{ book.title }}</td>
+            <td>{{ book.authors|join(' - ') }}</td>
+            <td>{{ book.page }}</td>
+            <td>{{ book.year }}</td>
+            <td>
+              <a href="/book/update/{{ book._id }}" type="button" class="btn btn-primary">Update</a>
             </td>
             <td>
-              <a href="./book/delete/{{ book._id }}" type="button" class="btn btn-danger">Delete</a>
+              <a href="/book/delete/{{ book._id }}" type="button" class="btn btn-danger">Delete</a>
             </td>
           </tr>
         {% endfor %}
