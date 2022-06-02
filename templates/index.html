@@ -8,4 +8,10 @@
   </h1>
 {% endblock %}
 
-{% block content %}{% endblock %}
+{% block content %}
+
+  <div class="borrow-history">
+    <h4>Borrow History</h4>
+    {% include "_borrow_history.html" %}
+  </div>
+{% endblock %}
