@@ -3,18 +3,41 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
+  font-family: sans-serif;
 }
 
 header {
   text-align: center;
   margin: 100px 5% 0;
   color: #2155cd;
+  font-family: ubuntu;
 }
 
 .navbar {
   margin: 25px auto;
   width: 80%;
   font-size: x-large;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+
+.clearfix {
+  clear: both;
+}
+
+.card {
+  margin: 0 0 60px;
+  padding: 20px 40px;
+  width: 460px;
+  box-shadow: 0 8px 26px -4px rgba(0, 0, 0, 0.15);
+  border-radius: 5px;
+  background: var(--white);
 }
 
 .content {
@@ -58,8 +81,4 @@ footer a:hover {
   background-color: #fff;
   border-radius: 5px;
   box-shadow: 0 0 10px #ccc;
-}
-
-.clearfix {
-  clear: both;
 }
