@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}LMS{% endblock %}
+
+{% block header %}
+  <h1>
+    Welcome to Library Management System
+  </h1>
+{% endblock %}
+
+{% block content %}
+
+  <div class="card">
+    <h2>Your Info</h2>
+    <p>
+      <strong>ID:</strong>
+      {{ session['user']['_id'] }}<br>
+      <strong>Name:</strong>
+      {{ session['user']['name'] }}<br>
+      <strong>Email:</strong>
+      {{ session['user']['email'] }}<br>
+      <strong>Role:</strong>
+      {{ session['user']['role'] }}
+    </p>
+  </div>
+
+  <div class="borrow-history">
+    <h4>Borrow History</h4>
+    {% include "_borrow_history.html" %}
+  </div>
+{% endblock %}
