@@ -1,4 +1,5 @@
+static/images/
 __pycache__/
-venv/
 .idea/
+venv/
 *.log
