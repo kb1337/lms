@@ -12,7 +12,7 @@
 {% endif %}
 {% endwith %}
 
-{% if books %}
+{% if borrow_history %}
   <table class="table table-hover" id="book-list">
     <thead class="table-ligth">
       <tr>
@@ -29,22 +29,22 @@
       </tr>
     </thead>
     <tbody class="table-group-divider">
-      {% for book in books %}
+      {% for record in borrow_history %}
         <tr>
           <th scope="row">{{loop.index}}</th>
-          <td hidden="true">{{book._id}}</td>
+          <td hidden="true">{{record._id}}</td>
           <td>
-            <img src="/static/{{ book.image }}" alt="{{ book.title }}" width="42" height="60"/>
+            <img src="{{ url_for('static', filename=record.book.image) }}" alt="{{ record.title }}" width="42" height="60"/>
           </td>
-          <td>{{ book.title }}</td>
-          <td>{{ book.authors|join(' - ') }}</td>
-          <td>{{ book.language }}</td>
-          <td>{{ book.edition }}</td>
-          <td>{{ book.page }}</td>
-          <td>{{ borrow_history.borrow_date }}</td>
-          <td>{{ borrow_history.return_date }}</td>
+          <td>{{ record.book.title }}</td>
+          <td>{{ record.book.authors|join(' - ') }}</td>
+          <td>{{ record.book.language }}</td>
+          <td>{{ record.book.edition }}</td>
+          <td>{{ record.book.page }}</td>
+          <td>{{ record.borrow_date }}</td>
+          <td>{{ record.return_date }}</td>
           <td>
-            <a href="/book/borrow/{{ book._id }}" type="button" class="btn btn-primary">Return</a>
+            <a href="/book/return/{{ record._id }}" type="button" class="btn btn-primary">Return</a>
           </td>
         </tr>
       {% endfor %}
