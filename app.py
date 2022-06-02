@@ -66,6 +66,22 @@ def home():
     return render_template("home.html")
 
 
+@app.route("/dashboard/")
+@login_required
+def dashboard():
+
+    borrow_history = list(db.borrow_history.find({"user_id": session["user"]["_id"]}))
+
+    for index, record in enumerate(borrow_history):
+        borrow_history[index]["book"] = db.books.find_one(
+            {"_id": ObjectId(record["book_id"])}
+        )
+
+    logger.debug(borrow_history)
+
+    return render_template("dashboard.html", borrow_history=borrow_history)
+
+
 @login_required
 def check_book(book_id: str) -> bool:
     """Check if book exists in database"""
