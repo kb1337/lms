@@ -2,10 +2,11 @@
 
 import sys
 import logging
-import pymongo
+from functools import wraps
 from bson import ObjectId
-from flask import Flask, render_template, request, flash, url_for, redirect
-
+from flask import Flask, render_template, request, flash, url_for, redirect, session
+import pymongo
+from datetime import datetime
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -28,12 +29,44 @@ logger.addHandler(stream_handler)
 
 
 app = Flask(__name__)
-app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
+app.secret_key = b"#\x89q\xe8\xa4;u\xc1[\xab\xe2SE\xe9\xb5*"
+
 
 client: pymongo.MongoClient = pymongo.MongoClient(host="localhost", port=27017)
 db = client["lms"]  # database name
 
+# Routes
+from user import routes
 
+
+def login_required(f):
+    @wraps(f)
+    def wrap(*args, **kwargs):
+        if "logged_in" in session:
+            return f(*args, **kwargs)
+        else:
+            return redirect("/")
+
+    return wrap
+
+
+def admin_required(f):
+    @wraps(f)
+    def wrap(*args, **kwargs):
+        if session["user"] == "admin":
+            return f(*args, **kwargs)
+        else:
+            return redirect("/")
+
+    return wrap
+
+
+@app.route("/")
+def home():
+    return render_template("home.html")
+
+
+@login_required
 def check_book(book_id: str) -> bool:
     """Check if book exists in database"""
 
@@ -53,13 +86,8 @@ def check_book(book_id: str) -> bool:
     return True
 
 
-@app.route("/")
-def home_page():
-    """home page"""
-    return render_template("index.html")
-
-
 @app.route("/books")
+@login_required
 def list_books():
     """books page"""
     books = list(db.books.find())
@@ -68,6 +96,7 @@ def list_books():
 
 
 @app.route("/book/<book_id>")
+@login_required
 def book_details(book_id):
     """book details"""
 
@@ -81,6 +110,7 @@ def book_details(book_id):
 
 
 @app.route("/book/update/<book_id>", methods=["GET", "POST"])
+@login_required
 def update_book(book_id):
     """book update"""
 
@@ -151,6 +181,7 @@ def update_book(book_id):
 
 
 @app.route("/book/delete/<book_id>")
+@login_required
 def delete_book(book_id):
     """book delete"""
 
@@ -168,6 +199,7 @@ def delete_book(book_id):
 
 
 @app.route("/book", methods=["GET"])
+@login_required
 def search_books():
     """Search book"""
     search = request.args.get("search")
@@ -177,8 +209,6 @@ def search_books():
 
     books = list(db.books.find({"title": {"$regex": search, "$options": "i"}}))
 
-    # TODO: Search book by any field
-
     logger.debug("%s books found", len(books))
     if not books:
         flash("Book not found", "danger")
@@ -186,6 +216,30 @@ def search_books():
 
     flash(f"{len(books)} books found", "success")
     return render_template("books.html", books=books)
+
+
+@app.route("/book/borrow/<book_id>")
+@login_required
+def borrow_book(book_id):
+    """borrow book"""
+
+    book = check_book(book_id)
+
+    if not book:
+        flash("Book not found", "danger")
+        return redirect(url_for("list_books"))
+
+    db.borrow_history.insert_one(
+        {
+            "user_id": session["user"]["_id"],
+            "book_id": book_id,
+            "borrow_date": datetime.now(),
+        }
+    )
+
+    logger.info("Borrowing book with id='%s'", book_id)
+    flash("Book borrowed successfully", "success")
+    return redirect(url_for("dashboard"))
 
 
 if __name__ == "__main__":
