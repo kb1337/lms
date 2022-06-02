@@ -163,7 +163,23 @@ def delete_book(book_id):
     return redirect(url_for("list_books"))
 
 
-# TODO: Search book by any field
+@app.route("/book", methods=["GET"])
+def search_books():
+    """Search book"""
+    search = request.args.get("search")
+
+    if not search or len(search) < 1:
+        return redirect(url_for("list_books"))
+
+    books = list(db.books.find({"title": search}))
+
+    # TODO: Search book by any field
+
+    logger.debug("%s books found", len(books))
+    if not books:
+        flash("Book not found", "danger")
+        return redirect(url_for("list_books"))
+    return render_template("books.html", books=books)
 
 
 if __name__ == "__main__":
