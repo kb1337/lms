@@ -11,7 +11,7 @@
   <form action="/book" method="GET" class="row g-2 mb-3" style="float:right">
     <div class="input-group">
       <div class="form-outline">
-        <input type="text" class="form-control" placeholder="Search" name="search">
+        <input type="text" class="form-control" placeholder="Search" name="search" autocomplete="off">
       </div>
       <button type="submit" class="btn btn-primary">
         <i class="fa-solid fa-magnifying-glass"></i>
@@ -43,8 +43,10 @@
           <th scope="col">Image</th>
           <th scope="col">Title</th>
           <th scope="col">Authors</th>
+          <th scope="col">Language</th>
+          <th scope="col">Edition</th>
           <th scope="col">Pages</th>
-          <th scope="col">Year</th>
+          <th scope="col">Quantity</th>
           <th scope="col" colspan="2">Actions</th>
         </tr>
       </thead>
@@ -58,8 +60,10 @@
             </td>
             <td>{{ book.title }}</td>
             <td>{{ book.authors|join(' - ') }}</td>
+            <td>{{ book.language }}</td>
+            <td>{{ book.edition }}</td>
             <td>{{ book.page }}</td>
-            <td>{{ book.year }}</td>
+            <td>{{ book.quantity }}</td>
             <td>
               <a href="/book/update/{{ book._id }}" type="button" class="btn btn-primary">Update</a>
             </td>
