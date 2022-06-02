@@ -64,12 +64,20 @@
             <td>{{ book.edition }}</td>
             <td>{{ book.page }}</td>
             <td>{{ book.quantity }}</td>
-            <td>
-              <a href="/book/update/{{ book._id }}" type="button" class="btn btn-primary">Update</a>
-            </td>
-            <td>
-              <a href="/book/delete/{{ book._id }}" type="button" class="btn btn-danger">Delete</a>
-            </td>
+            {% if session['user']['role'] == "admin" %}
+              <td>
+                <a href="/book/update/{{ book._id }}" type="button" class="btn btn-primary">Update</a>
+              </td>
+
+              <td>
+                <a href="/book/delete/{{ book._id }}" type="button" class="btn btn-danger">Delete</a>
+              </td>
+            {% else %}
+              <td>
+                <a href="/book/borrow/{{ book._id }}" type="button" class="btn btn-primary">Borrow</a>
+              </td>
+            {% endif %}
+
           </tr>
         {% endfor %}
       </tbody>
