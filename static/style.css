@@ -5,21 +5,21 @@ body {
   height: 100%;
 }
 
-.navbar {
-  background-color: #e8f9fd67;
-  margin: 0 auto;
-  width: 70%;
-  font-size: x-large;
-}
-
 header {
   text-align: center;
-  margin: 100px 5% 50px;
+  margin: 100px 5% 0;
   color: #2155cd;
 }
 
+.navbar {
+  margin: 25px auto;
+  width: 80%;
+  font-size: x-large;
+}
+
 .content {
-  margin: 50px 5%;
+  margin: 0px auto;
+  width: 70%;
 }
 
 footer {
@@ -44,6 +44,7 @@ footer a:hover {
 
 .flashes {
   list-style-type: none;
+  padding-left: 0%;
 }
 
 #book-list {
@@ -52,7 +53,7 @@ footer a:hover {
 
 #book-form {
   margin: 0 auto;
-  width: 60%;
+  width: 65%;
   padding: 20px;
   background-color: #fff;
   border-radius: 5px;
