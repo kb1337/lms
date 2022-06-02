@@ -183,6 +183,8 @@ def search_books():
     if not books:
         flash("Book not found", "danger")
         return redirect(url_for("list_books"))
+
+    flash(f"{len(books)} books found", "success")
     return render_template("books.html", books=books)
 
 
