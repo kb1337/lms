@@ -1,6 +1,13 @@
-<div class="col-md-4">
-  <img src="/static/{{ book.image }}" alt="{{ book.title }}" class="img-fluid"/>
-  <label for="image" class="form-label">Image</label>
+<div class="col-md-4 row">
+  <div class="col-md-12">
+    <img src="/static/{{ book.image }}" alt="{{ book.title }}" class="img-fluid"/>
+  </div>
+
+  <div class="col-md-12">
+    <label for="formFile" class="form-label">Upload image</label>
+    <input class="form-control form-control-sm" type="file" id="image" name="image" value="{{ book.image }}">
+  </div>
+
   {# TODO: File upload #}
 </div>
 
@@ -62,3 +69,4 @@
 </div>
 
 <button type="submit" class="btn btn-primary col-md-3 mx-auto">Save</button>
+<a href="/books" class="btn btn-secondary col-md-3 mx-auto">Cancel</a>
