@@ -92,6 +92,7 @@ def update_book(book_id):
             return redirect(url_for("list_books"))
 
         book = list(db.books.find({"_id": ObjectId(book_id)}))[0]
+        logger.debug("Book: %s", book)
         return render_template("update_book.html", book=book)
 
     # Update book with new values
@@ -109,7 +110,10 @@ def update_book(book_id):
         quantity = request.form.get("quantity")
         price = request.form.get("price")
 
+        logger.debug("Book: %s", request.form)
+
         # TODO: Validate book informations
+        # TODO: image upload
 
         authors = str(authors).split(",")
         authors = [author.strip() for author in authors]
@@ -129,7 +133,7 @@ def update_book(book_id):
                     "publisher": publisher,
                     "page": page,
                     "language": language,
-                    "image": image,
+                    # "image": image,
                     "quantity": quantity,
                     "price": price,
                 }
@@ -171,7 +175,7 @@ def search_books():
     if not search or len(search) < 1:
         return redirect(url_for("list_books"))
 
-    books = list(db.books.find({"title": search}))
+    books = list(db.books.find({"title": {"$regex": search, "$options": "i"}}))
 
     # TODO: Search book by any field
 
