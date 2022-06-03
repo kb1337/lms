@@ -44,7 +44,9 @@
           <td>{{ record.borrow_date }}</td>
           <td>{{ record.return_date }}</td>
           <td>
-            <a href="/book/return/{{ record._id }}" type="button" class="btn btn-primary">Return</a>
+            {% if not record.return_date %}
+              <a href="/book/return/{{ record._id }}" type="button" class="btn btn-primary">Return</a>
+            {% endif %}
           </td>
         </tr>
       {% endfor %}
