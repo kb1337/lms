@@ -76,10 +76,9 @@ def dashboard():
         borrow_history[index]["book"] = db.books.find_one(
             {"_id": ObjectId(record["book_id"])}
         )
+    logger.debug(borrow_history[::-1])
 
-    logger.debug(borrow_history)
-
-    return render_template("dashboard.html", borrow_history=borrow_history)
+    return render_template("dashboard.html", borrow_history=borrow_history[::-1])
 
 
 @login_required
@@ -258,13 +257,51 @@ def borrow_book(book_id):
     db.borrow_history.insert_one(
         {
             "user_id": session["user"]["_id"],
-            "book_id": book_id,
+            "book_id": ObjectId(book_id),
             "borrow_date": datetime.now(),
+            # "return_date": "",
         }
     )
 
     logger.info("Borrowing book with id='%s'", book_id)
     flash("Book borrowed successfully", "success")
+    return redirect(url_for("dashboard"))
+
+
+@app.route("/book/return/<record_id>")
+@login_required
+def return_book(record_id):
+    """return book"""
+
+    # Check if record_id is valid ObjectId
+    if not ObjectId.is_valid(record_id):
+        flash("Invalid record id", "danger")
+        return redirect(url_for("dashboard"))
+
+    record = db.borrow_history.find_one({"_id": ObjectId(record_id)})
+    logger.debug(record)
+
+    if not record:
+        flash("Book not found", "danger")
+        return redirect(url_for("list_books"))
+
+    book_id = record["book_id"]
+
+    # Check if book returned before
+    if "return_date" in record.keys():
+        flash("Book is already returned", "danger")
+        return redirect(url_for("dashboard"))
+
+    # Update book quantity
+    db.books.update_one({"_id": ObjectId(book_id)}, {"$inc": {"quantity": 1}})
+
+    db.borrow_history.update_one(
+        {"_id": ObjectId(record_id)},
+        {"$set": {"return_date": datetime.now()}},
+    )
+    logger.info("return_date updated from borrow history. Record ID: '%s'", book_id)
+
+    flash("Book returned successfully", "success")
     return redirect(url_for("dashboard"))
 
 
