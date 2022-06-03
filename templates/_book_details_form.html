@@ -1,0 +1,77 @@
+<div class="col-md-4 row">
+  <div class="col-md-12">
+    <img src="/static/{{ book.image }}" alt="{{ book.title }}" class="img-fluid"/>
+  </div>
+</div>
+
+<div class="col-md-8 row">
+  <div class="col-md-12">
+    <label for="title" class="form-label">Title</label>
+    <input disabled="True" type="text" class="form-control" id="title" name="title" value="{{ book.title }}"/>
+  </div>
+
+  <div class="col-md-6">
+    <label for="authors" class="form-label">Authors</label>
+    <input disabled="True" type="text" class="form-control" id="authors" name="authors" value="{{ book.authors|join(', ') }}"/>
+  </div>
+
+  <div class="col-md-6">
+    <label for="editors" class="form-label">Editors</label>
+    <input disabled="True" type="text" class="form-control" id="editors" name="editors" value="{{ book.editors|join(', ') }}"/>
+  </div>
+
+  <div class="col-md-8">
+    <label for="isbn" class="form-label">ISBN</label>
+    <input disabled="True" type="text" class="form-control" id="isbn" name="isbn" value="{{ book.isbn }}"/>
+  </div>
+
+  <div class="col-md-4">
+    <label for="edition" class="form-label">Edition</label>
+    <input disabled="True" type="text" class="form-control" id="edition" name="edition" value="{{ book.edition }}"/>
+  </div>
+
+  <div class="col-md-4">
+    <label for="language" class="form-label">Language</label>
+    <input disabled="True" type="text" class="form-control" id="language" name="language" value="{{ book.language }}"/>
+  </div>
+
+  <div class="col-md-4">
+    <label for="year" class="form-label">Publish Year</label>
+    <input disabled="True" type="text" class="form-control" id="year" name="year" value="{{ book.year }}"/>
+  </div>
+
+  <div class="col-md-4">
+    <label for="publisher" class="form-label">Publisher</label>
+    <input disabled="True" type="text" class="form-control" id="publisher" name="publisher" value="{{ book.publisher }}"/>
+  </div>
+
+  <div class="col-md-4">
+    <label for="page" class="form-label">Page</label>
+    <input disabled="True" type="text" class="form-control" id="page" name="page" value="{{ book.page }}"/>
+  </div>
+
+  <div class="col-md-4">
+    <label for="quantity" class="form-label">Quantity</label>
+    <input disabled="True" type="text" class="form-control" id="quantity" name="quantity" value="{{ book.quantity }}"/>
+  </div>
+
+  <div class="col-md-4">
+    <label for="price" class="form-label">Price</label>
+    <input disabled="True" type="text" class="form-control" id="price" name="price" value="{{ book.price }}"/>
+  </div>
+</div>
+
+{% if session['user']['role'] == "admin" %}
+  <td>
+    <a href="/book/update/{{ book._id }}" type="button" class="btn btn-primary col-md-3 mx-auto">Update</a>
+  </td>
+
+  <td>
+    <a href="/book/delete/{{ book._id }}" type="button" class="btn btn-danger col-md-3 mx-auto">Delete</a>
+  </td>
+{% else %}
+  <td>
+    <a href="/book/borrow/{{ book._id }}" type="button" class="btn btn-primary col-md-3 mx-auto">Borrow</a>
+  </td>
+{% endif %}
+<a href="/books" class="btn btn-secondary col-md-3 mx-auto">Go Back</a>
