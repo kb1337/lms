@@ -7,8 +7,10 @@
 {% endblock %}
 
 {% block content %}
-
-  <form action="/book" method="GET" class="row g-2 mb-3" style="float:right">
+  {% if session['user']['role'] == "admin" %}
+    <a href="/book/add/" class="btn btn-primary left">Add Book</a>
+  {% endif %}
+  <form action="/book" method="GET" class="row g-2 mb-3 right">
     <div class="input-group">
       <div class="form-outline">
         <input type="text" class="form-control" placeholder="Search" name="search" autocomplete="off">
@@ -58,7 +60,9 @@
             <td>
               <img src="/static/{{ book.image }}" alt="{{ book.title }}" width="42" height="60"/>
             </td>
-            <td>{{ book.title }}</td>
+            <td>
+              <a href="books/{{ book._id }}" class="book-details-link">{{ book.title }}</a>
+            </td>
             <td>{{ book.authors|join(' - ') }}</td>
             <td>{{ book.language }}</td>
             <td>{{ book.edition }}</td>
