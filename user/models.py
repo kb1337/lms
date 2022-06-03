@@ -14,7 +14,6 @@ class User:
 
     def signup(self):
         """signup"""
-        print(request.form)
 
         user = {
             "_id": uuid.uuid4().hex,
