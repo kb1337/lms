@@ -120,8 +120,10 @@ def book_details(book_id):
         flash("Book not found", "danger")
         return redirect(url_for("list_books"))
 
-    logger.info("Book found with id='%s'", book_id)
-    return render_template("books.html", book=book)
+    book = db.books.find_one({"_id": ObjectId(book_id)})
+
+    logger.info("Book: ", book)
+    return render_template("book_details.html", book=book)
 
 
 @app.route("/book/update/<book_id>", methods=["GET", "POST"])
@@ -157,9 +159,6 @@ def update_book(book_id):
 
         logger.debug("Book: %s", request.form)
 
-        # TODO: Validate book informations
-        # TODO: image upload
-
         authors = str(authors).split(",")
         authors = [author.strip() for author in authors]
         editors = str(editors).split(",")
@@ -179,7 +178,7 @@ def update_book(book_id):
                     "page": page,
                     "language": language,
                     # "image": image,
-                    "quantity": quantity,
+                    "quantity": int(quantity),
                     "price": price,
                 }
             },
@@ -213,7 +212,7 @@ def delete_book(book_id):
     return redirect(url_for("list_books"))
 
 
-@app.route("/book", methods=["GET"])
+@app.route("/search", methods=["GET"])
 @login_required
 def search_books():
     """Search book"""
@@ -259,7 +258,6 @@ def borrow_book(book_id):
             "user_id": session["user"]["_id"],
             "book_id": ObjectId(book_id),
             "borrow_date": datetime.now(),
-            # "return_date": "",
         }
     )
 
