@@ -56,6 +56,11 @@ footer {
   position: fixed;
 }
 
+.book-details-link {
+  color: #2155cd;
+  text-decoration: none;
+}
+
 footer a {
   color: #e8f9fd;
   text-decoration: none;
