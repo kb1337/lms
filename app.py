@@ -221,7 +221,25 @@ def search_books():
     if not search or len(search) < 1:
         return redirect(url_for("list_books"))
 
-    books = list(db.books.find({"title": {"$regex": search, "$options": "i"}}))
+    books = list(
+        db.books.find(
+            {
+                "$or": [
+                    {"authors": {"$in": [search]}},
+                    {"editors": {"$in": [search]}},
+                    {"edition": {"$regex": search, "$options": "i"}},
+                    {"title": {"$regex": search, "$options": "i"}},
+                    {"language": {"$regex": search, "$options": "i"}},
+                    {"isbn": {"$regex": search, "$options": "i"}},
+                    {"publisher": {"$regex": search, "$options": "i"}},
+                    {"page": search},
+                    {"year": search},
+                ]
+            }
+        )
+    )
+
+    print(f"\n\n{books}\n\n")
 
     logger.debug("%s books found", len(books))
     if not books:
