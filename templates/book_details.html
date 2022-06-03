@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Book Details{% endblock %}
+
+{% block header %}
+  <h1>Book Details</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post" action="/books" class="row g-1" id="book-form">
+    {% include "_book_details_form.html" %}
+  </form>
+{% endblock %}
