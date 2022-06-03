@@ -245,6 +245,16 @@ def borrow_book(book_id):
         flash("Book not found", "danger")
         return redirect(url_for("list_books"))
 
+    # Check if book is available
+    book = list(db.books.find({"_id": ObjectId(book_id)}))[0]
+    if book["quantity"] <= 0:
+        flash("Book is not available", "danger")
+        return redirect(url_for("list_books"))
+
+    # Update book quantity
+    db.books.update_one({"_id": ObjectId(book_id)}, {"$inc": {"quantity": -1}})
+
+    # Add borrow history
     db.borrow_history.insert_one(
         {
             "user_id": session["user"]["_id"],
