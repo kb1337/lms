@@ -59,8 +59,7 @@ class Book:
     def book_details(self, book_id):
         """book details"""
 
-        book = self.check_book(book_id)
-        if not book:
+        if not self.check_book(book_id):
             flash("Book not found", "danger")
             return redirect(url_for("list_books"))
 
@@ -74,8 +73,7 @@ class Book:
 
         # Get book informations from db
         if request.method == "GET":
-            book = self.check_book(book_id)
-            if not book:
+            if not self.check_book(book_id):
                 flash("Book not found", "danger")
                 return redirect(url_for("list_books"))
 
@@ -188,9 +186,7 @@ class Book:
     def borrow_book(self, book_id):
         """borrow book"""
 
-        book = self.check_book(book_id)
-
-        if not book:
+        if not self.check_book(book_id):
             flash("Book not found", "danger")
             return redirect(url_for("list_books"))
 
