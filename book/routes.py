@@ -1,7 +1,8 @@
-""" Book Routes """
+""" Routes for the book """
 
 from app import app
 from book.models import Book
+
 
 @app.route("/books")
 def list_books():

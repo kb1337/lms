@@ -1,4 +1,4 @@
-""" book model """
+"""Book model"""
 
 from datetime import datetime
 import logging
@@ -51,13 +51,13 @@ class Book:
         return True
 
     def list_books(self):
-        """books page"""
+        """List all books"""
         books = list(db.books.find())
         logger.debug("%s books found", len(books))
         return render_template("books.html", books=books)
 
     def book_details(self, book_id):
-        """book details"""
+        """Show book details"""
 
         if not self.check_book(book_id):
             flash("Book not found", "danger")
@@ -69,7 +69,7 @@ class Book:
         return render_template("book_details.html", book=book)
 
     def update_book(self, book_id):
-        """book update"""
+        """Updates book by book_id"""
 
         # Get book informations from db
         if request.method == "GET":
@@ -136,7 +136,7 @@ class Book:
             return redirect(url_for("list_books"))
 
     def delete_book(self, book_id):
-        """book delete"""
+        """Deletes book by book_id"""
 
         book = self.check_book(book_id)
 
@@ -151,7 +151,7 @@ class Book:
         return redirect(url_for("list_books"))
 
     def search_books(self):
-        """Search book"""
+        """Search books by any field"""
         search = request.args.get("search")
 
         if not search or len(search) < 1:
@@ -184,7 +184,7 @@ class Book:
         return render_template("books.html", books=books)
 
     def borrow_book(self, book_id):
-        """borrow book"""
+        """Borrow book by book_id"""
 
         if not self.check_book(book_id):
             flash("Book not found", "danger")
@@ -213,7 +213,7 @@ class Book:
         return redirect(url_for("dashboard"))
 
     def return_book(self, record_id):
-        """return book"""
+        """Return book by borrow history record_id"""
 
         # Check if record_id is valid ObjectId
         if not ObjectId.is_valid(record_id):

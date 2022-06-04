@@ -7,6 +7,7 @@ from bson import ObjectId
 from flask import Flask, render_template, redirect, session
 import pymongo
 
+
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
@@ -35,54 +36,54 @@ client: pymongo.MongoClient = pymongo.MongoClient(host="localhost", port=27017)
 db = client["lms"]  # database name
 
 # Routes
-from user import routes
+from user import routes as user_routes
+from book import routes as book_routes
 
 
-def login_required(f):
+def login_required(function):
     """login_required decorator"""
 
-    @wraps(f)
+    @wraps(function)
     def wrap(*args, **kwargs):
         if "logged_in" in session:
-            return f(*args, **kwargs)
-        else:
-            return redirect("/")
+            return function(*args, **kwargs)
+        return redirect("/")
 
     return wrap
 
 
-def admin_required(f):
+def admin_required(function):
     """admin_required decorator"""
 
-    @wraps(f)
+    @wraps(function)
     def wrap(*args, **kwargs):
         if session["user"] == "admin":
-            return f(*args, **kwargs)
-        else:
-            return redirect("/")
+            return function(*args, **kwargs)
+        return redirect("/")
 
     return wrap
 
 
 @app.route("/")
 def home():
-    """home"""
+    """Home page"""
     return render_template("home.html")
 
 
 @app.route("/dashboard/")
 @login_required
 def dashboard():
-    """dashboard"""
+    """Dashboard page"""
 
+    # FIXME Join books and borrow_history collections
     borrow_history = list(db.borrow_history.find({"user_id": session["user"]["_id"]}))
 
     for index, record in enumerate(borrow_history):
         borrow_history[index]["book"] = db.books.find_one(
             {"_id": ObjectId(record["book_id"])}
         )
-    logger.debug(borrow_history[::-1])
 
+    logger.debug(borrow_history[::-1])
     return render_template("dashboard.html", borrow_history=borrow_history[::-1])
 
 

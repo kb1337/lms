@@ -1,4 +1,5 @@
-from flask import Flask
+"""Routes for the user"""
+
 from app import app
 from user.models import User
 

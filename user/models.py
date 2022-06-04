@@ -1,10 +1,14 @@
-from flask import Flask, jsonify, request, session, redirect
+"""User model"""
+
+import uuid
+from flask import jsonify, request, session, redirect
 from passlib.hash import pbkdf2_sha256
 from app import db
-import uuid
 
 
 class User:
+    """User model"""
+
     def start_session(self, user):
         """start_session"""
         del user["password"]
