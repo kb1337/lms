@@ -8,7 +8,7 @@
 
 {% block content %}
   {% if session['user']['role'] == "admin" %}
-    <a href="/book/add/" class="btn btn-primary left">Add Book</a>
+    <a href="{{ url_for('add_book') }}" class="btn btn-primary left">Add Book</a>
   {% endif %}
   <form action="{{ url_for('search_books') }}" method="GET" class="row g-2 mb-3 right">
     <div class="input-group">
@@ -58,10 +58,10 @@
             <th scope="row">{{loop.index}}</th>
             <td hidden="true">{{book._id}}</td>
             <td>
-              <img src="/static/{{ book.image }}" alt="{{ book.title }}" width="42" height="60"/>
+              <img src="{{ url_for('static', filename=book.image) }}" alt="{{ book.title }}" width="42" height="60"/>
             </td>
             <td>
-              <a href="book/{{ book._id }}" class="book-details-link">{{ book.title }}</a>
+              <a href="{{ url_for('book_details', book_id=book._id) }}" class="book-details-link">{{ book.title }}</a>
             </td>
             <td>{{ book.authors|join(' - ') }}</td>
             <td>{{ book.language }}</td>
@@ -70,15 +70,15 @@
             <td>{{ book.quantity }}</td>
             {% if session['user']['role'] == "admin" %}
               <td>
-                <a href="/book/update/{{ book._id }}" type="button" class="btn btn-primary">Update</a>
+                <a href="{{ url_for('update_book', book_id=book._id) }}" type="button" class="btn btn-primary">Update</a>
               </td>
 
               <td>
-                <a href="/book/delete/{{ book._id }}" type="button" class="btn btn-danger">Delete</a>
+                <a href="{{ url_for('delete_book', book_id=book._id) }}" type="button" class="btn btn-danger">Delete</a>
               </td>
             {% else %}
               <td>
-                <a href="/book/borrow/{{ book._id }}" type="button" class="btn btn-primary">Borrow</a>
+                <a href="{{ url_for('borrow_book', book_id=book._id) }}" type="button" class="btn btn-primary">Borrow</a>
               </td>
             {% endif %}
 
