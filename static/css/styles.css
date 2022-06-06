@@ -37,9 +37,20 @@ header {
   width: 460px;
   box-shadow: 0 8px 26px -4px rgba(0, 0, 0, 0.15);
   border-radius: 5px;
-  background: var(--white);
+  background: #fff;
 }
 
+.error {
+  margin: 0;
+  font-size: 16px;
+  line-height: 26px;
+  text-align: center;
+  color: #f00;
+}
+
+.error-hidden {
+  display: none;
+}
 .content {
   margin: 0px auto;
   width: 70%;
