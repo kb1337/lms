@@ -17,6 +17,13 @@ def book_details(book_id):
     return Book().book_details(book_id)
 
 
+@app.route("/book/add/")
+# @login_required
+def add_book():
+    """Add new book"""
+    return Book().add_book()
+
+
 @app.route("/book/update/<book_id>/", methods=["GET", "POST"])
 # @login_required
 def update_book(book_id):
