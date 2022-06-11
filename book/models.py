@@ -68,6 +68,58 @@ class Book:
         logger.info("Book: %s", book)
         return render_template("book_details.html", book=book)
 
+    def add_book(self):
+        """Add new book"""
+
+        if request.method == "GET":
+            return render_template("add_book.html", book=[])
+
+        elif request.method == "POST":
+            title = request.form.get("title")
+            authors = request.form.get("authors")
+            editors = request.form.get("editors")
+            isbn = request.form.get("isbn")
+            year = request.form.get("year")
+            edition = request.form.get("edition")
+            publisher = request.form.get("publisher")
+            page = request.form.get("page")
+            language = request.form.get("language")
+            image = request.form.get("image")
+            quantity = request.form.get("quantity")
+            price = request.form.get("price")
+
+            # TODO: validate data
+            # TODO: image upload
+
+            db.books.insert_one(
+                {
+                    "title": title,
+                    "authors": authors,
+                    "editors": editors,
+                    "isbn": isbn,
+                    "year": year,
+                    "edition": edition,
+                    "publisher": publisher,
+                    "page": page,
+                    "language": language,
+                    "image": image,
+                    "quantity": quantity,
+                    "price": price,
+                    "borrowed": [],
+                    "created_at": datetime.now(),
+                    "updated_at": datetime.now(),
+                }
+            )
+
+            logger.info("Book added: %s", title)
+            flash("Book added successfully", "success")
+            return redirect(url_for("list_books"))
+
+        else:
+            logger.warning("Invalid request method %s", request.method)
+            flash("Invalid request method", "danger")
+            return redirect(url_for("list_books"))
+
     def update_book(self, book_id):
         """Updates book by book_id"""
 
@@ -97,7 +149,6 @@ class Book:
             price = request.form.get("price")
 
             # TODO: validate data
-            # TODO: image upload
 
             logger.debug("Book: %s", request.form)
 

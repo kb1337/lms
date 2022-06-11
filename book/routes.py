@@ -17,7 +17,7 @@ def book_details(book_id):
     return Book().book_details(book_id)
 
 
-@app.route("/book/add/")
+@app.route("/book/add/", methods=["GET", "POST"])
 # @login_required
 def add_book():
     """Add new book"""
