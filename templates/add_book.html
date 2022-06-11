@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Add New Book{% endblock %}
+
+{% block header %}
+  <h1>Add New Book</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post" action="/book/add/{{ book._id }}" class="row g-1" id="book-form">
+    {% include "includes/book_form.html" %}
+  </form>
+{% endblock %}
