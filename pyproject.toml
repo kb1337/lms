@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "lms"
+version = "0.1.0"
+description = ""
+authors = ["Kadir Burak Gündüz <73403802+kb1337@users.noreply.github.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+pymongo = "^4.1.1"
+Flask = "^2.1.2"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
