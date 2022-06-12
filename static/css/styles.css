@@ -51,8 +51,9 @@ header {
 .error-hidden {
   display: none;
 }
+
 .content {
-  margin: 0px auto;
+  margin: 0 auto;
   width: 70%;
 }
 
