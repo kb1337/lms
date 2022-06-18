@@ -1,13 +1,39 @@
 """User model"""
 
+from functools import wraps
 import uuid
-from flask import jsonify, request, session, redirect
+from flask import jsonify, request, session, redirect, url_for
 from passlib.hash import pbkdf2_sha256
 from app import db
 
 
 class User:
     """User model"""
+
+    @staticmethod
+    def login_required(function):
+        """login_required decorator"""
+
+        @wraps(function)
+        def wrap(*args, **kwargs):
+            if "logged_in" in session:
+                return function(*args, **kwargs)
+            return redirect(url_for("signout"))
+
+        return wrap
+
+    @staticmethod
+    def admin_required(function):
+        """admin_required decorator"""
+
+        @wraps(function)
+        def wrap(*args, **kwargs):
+            print(session)
+            if session["user"]["role"] == "admin":
+                return function(*args, **kwargs)
+            return redirect(url_for("signout"))
+
+        return wrap
 
     def start_session(self, user):
         """start_session"""
