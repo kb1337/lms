@@ -8,6 +8,8 @@ authors = ["Kadir Burak Gündüz <73403802+kb1337@users.noreply.github.com>"]
 python = "^3.10"
 pymongo = "^4.1.1"
 Flask = "^2.1.2"
+passlib = "^1.7.4"
+python-dotenv = "^0.20.0"
 
 [tool.poetry.dev-dependencies]
 
