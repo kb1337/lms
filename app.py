@@ -1,5 +1,6 @@
 """Flask - Library Management System"""
 
+import os
 import sys
 import logging
 from bson import ObjectId
@@ -31,7 +32,7 @@ app = Flask(__name__)
 app.secret_key = b"#\x89q\xe8\xa4;u\xc1[\xab\xe2SE\xe9\xb5*"
 
 
-client: pymongo.MongoClient = pymongo.MongoClient(host="localhost", port=27017)
+client: pymongo.MongoClient = pymongo.MongoClient(os.getenv("MONGO_URI"))
 db = client["lms"]  # database name
 
 # Routes
