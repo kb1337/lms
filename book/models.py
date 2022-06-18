@@ -50,6 +50,22 @@ class Book:
         logger.debug("Book: %s", book)
         return True
 
+    def dashboard(self):
+        """Dashboard page"""
+
+        # FIXME Join books and borrow_history collections
+        borrow_history = list(
+            db.borrow_history.find({"user_id": session["user"]["_id"]})
+        )
+
+        for index, record in enumerate(borrow_history):
+            borrow_history[index]["book"] = db.books.find_one(
+                {"_id": ObjectId(record["book_id"])}
+            )
+
+        logger.debug(borrow_history[::-1])
+        return render_template("dashboard.html", borrow_history=borrow_history[::-1])
+
     def list_books(self):
         """List all books"""
         books = list(db.books.find())

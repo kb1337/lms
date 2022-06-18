@@ -47,22 +47,5 @@ def home():
     return render_template("home.html")
 
 
-@app.route("/dashboard/")
-@User.login_required
-def dashboard():
-    """Dashboard page"""
-
-    # FIXME Join books and borrow_history collections
-    borrow_history = list(db.borrow_history.find({"user_id": session["user"]["_id"]}))
-
-    for index, record in enumerate(borrow_history):
-        borrow_history[index]["book"] = db.books.find_one(
-            {"_id": ObjectId(record["book_id"])}
-        )
-
-    logger.debug(borrow_history[::-1])
-    return render_template("dashboard.html", borrow_history=borrow_history[::-1])
-
-
 if __name__ == "__main__":
     app.run(debug=True)

@@ -5,6 +5,13 @@ from book.models import Book
 from user.models import User
 
 
+@app.route("/dashboard/")
+@User.login_required
+def dashboard():
+    """Dashboard page"""
+    return Book().dashboard()
+
+
 @app.route("/books/")
 @User.login_required
 def list_books():
