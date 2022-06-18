@@ -2,9 +2,8 @@
 
 import sys
 import logging
-from functools import wraps
 from bson import ObjectId
-from flask import Flask, render_template, redirect, session
+from flask import Flask, render_template, session
 import pymongo
 
 
@@ -39,29 +38,7 @@ db = client["lms"]  # database name
 from user import routes as user_routes
 from book import routes as book_routes
 
-
-def login_required(function):
-    """login_required decorator"""
-
-    @wraps(function)
-    def wrap(*args, **kwargs):
-        if "logged_in" in session:
-            return function(*args, **kwargs)
-        return redirect("/")
-
-    return wrap
-
-
-def admin_required(function):
-    """admin_required decorator"""
-
-    @wraps(function)
-    def wrap(*args, **kwargs):
-        if session["user"] == "admin":
-            return function(*args, **kwargs)
-        return redirect("/")
-
-    return wrap
+from user.models import User
 
 
 @app.route("/")
@@ -71,7 +48,7 @@ def home():
 
 
 @app.route("/dashboard/")
-@login_required
+@User.login_required
 def dashboard():
     """Dashboard page"""
 
