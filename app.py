@@ -29,8 +29,7 @@ logger.addHandler(stream_handler)
 
 
 app = Flask(__name__)
-app.secret_key = b"#\x89q\xe8\xa4;u\xc1[\xab\xe2SE\xe9\xb5*"
-
+app.secret_key = os.urandom(24)
 
 client: pymongo.MongoClient = pymongo.MongoClient(os.getenv("MONGO_URI"))
 db = client["lms"]  # database name
