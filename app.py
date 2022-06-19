@@ -3,8 +3,7 @@
 import os
 import sys
 import logging
-from bson import ObjectId
-from flask import Flask, render_template, session
+from flask import Flask, render_template
 import pymongo
 
 
@@ -37,8 +36,6 @@ db = client["lms"]  # database name
 # Routes
 from user import routes as user_routes
 from book import routes as book_routes
-
-from user.models import User
 
 
 @app.route("/")
