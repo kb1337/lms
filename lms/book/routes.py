@@ -15,14 +15,14 @@ def dashboard():
 @app.route("/books/")
 @User.login_required
 def list_books():
-    """books page"""
+    """List books"""
     return Book().list_books()
 
 
 @app.route("/book/<book_id>/")
 @User.login_required
 def book_details(book_id):
-    """book details"""
+    """Show book details"""
     return Book().book_details(book_id)
 
 
@@ -38,7 +38,7 @@ def add_book():
 @User.login_required
 @User.admin_required
 def update_book(book_id):
-    """book update"""
+    """Update book"""
     return Book().update_book(book_id)
 
 
@@ -46,26 +46,26 @@ def update_book(book_id):
 @User.login_required
 @User.admin_required
 def delete_book(book_id):
-    """book delete"""
+    """Delete book"""
     return Book().delete_book(book_id)
 
 
 @app.route("/search/", methods=["GET"])
 @User.login_required
 def search_books():
-    """search book"""
+    """Search book"""
     return Book().search_books()
 
 
 @app.route("/book/borrow/<book_id>/")
 @User.login_required
 def borrow_book(book_id):
-    """borrow book"""
+    """Borrow book"""
     return Book().borrow_book(book_id)
 
 
 @app.route("/book/return/<record_id>/")
 @User.login_required
 def return_book(record_id):
-    """return book"""
+    """Return book"""
     return Book().return_book(record_id)
