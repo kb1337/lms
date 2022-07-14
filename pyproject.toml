@@ -7,7 +7,7 @@ authors = ["Kadir Burak Gündüz <73403802+kb1337@users.noreply.github.com>"]
 [tool.poetry.dependencies]
 python = "^3.10"
 pymongo = "^4.1.1"
-Flask = "^2.1.2"
+Flask = "^2.1.3"
 passlib = "^1.7.4"
 python-dotenv = "^0.20.0"
 WTForms = "^3.0.1"
